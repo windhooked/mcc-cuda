@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <functional>
+#include <numeric>
 
 #include "consolidation.cuh"
 #include "constants.cuh"
@@ -20,7 +21,7 @@ float LSS(const vector<float>& _matrix, const int rows, const int cols) {
   auto matrix(_matrix);
   int np = getNP(rows, cols);
   nth_element(matrix.begin(), matrix.begin()+np, matrix.end(), greater<float>());
-  auto sum = accumulate(matrix.begin(), matrix.begin()+np, 0.0f);
+  auto sum = std::accumulate(matrix.begin(), matrix.begin()+np, 0.0f);
   return sum / np;
 }
 
@@ -30,7 +31,7 @@ float devLSS(float *devMatrix, const int rows, const int cols) {
   devBitonicSort(devMatrix, rows*cols);
   vector<float> matrix(np);
   cudaMemcpy(matrix.data(), devMatrix, np * sizeof(float), cudaMemcpyDeviceToHost);
-  auto sum = accumulate(matrix.begin(), matrix.end(), 0.0f);
+  auto sum = std::accumulate(matrix.begin(), matrix.end(), 0.0f);
   return sum / np;
 }
 

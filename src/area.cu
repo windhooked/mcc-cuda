@@ -2,6 +2,7 @@
 #include <tuple>
 #include <fstream>
 #include <iostream>
+#include <vector>
 
 #include "minutia.cuh"
 #include "constants.cuh"
